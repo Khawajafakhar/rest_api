@@ -1,6 +1,8 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:rest_api/models/product_model.dart';
+import 'package:rest_api/services/api_handler.dart';
 import '../consts/global_colors.dart';
 import '../Widgets/appbar_icon.dart';
 import '../Widgets/banner_cruser.dart';
@@ -18,19 +20,28 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late TextEditingController _searchController;
+   List<ProductsModel> prodList=[];
 
   @override
   void initState() {
-    // TODO: implement initState
     _searchController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _searchController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    getProductsList();
+    print('prodList $prodList');
+    super.didChangeDependencies();
+  }
+  Future<void> getProductsList()async{
+    prodList=await APIHandler.getAllProducts();
   }
 
   @override
